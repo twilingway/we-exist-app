@@ -69,23 +69,20 @@ const MyStepsComponent: React.FC = () => {
             )}
             {step === 1 && (
                 <div className="step">
+                    <div className="title">МЫ-ЕСТЬ!</div>
                     <button
-                        className="step-button"
+                        className="first-button"
                         onClick={() => handleButtonClick('social')}
                     >
-                        1. Социальный
+                        <div className="span1">911</div>
+                        <div>ПОЕЗДКА С ПСИХОЛОГОМ</div>
                     </button>
                     <button
-                        className="step-button"
+                        className="second-button"
                         onClick={() => handleButtonClick('psychologist')}
                     >
-                        2. Поездка с психологом
-                    </button>
-                    <button
-                        className="step-button"
-                        onClick={() => handleButtonClick('tour')}
-                    >
-                        3. Программный тур
+                        <div className="sos">SOS</div>
+                        <div>ДЛЯ УЧАСТНИКОВ СВО</div>
                     </button>
                 </div>
             )}
