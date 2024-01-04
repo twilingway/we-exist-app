@@ -74,15 +74,15 @@ const MyStepsComponent: React.FC = () => {
                         className="first-button"
                         onClick={() => handleButtonClick('social')}
                     >
-                        <div className="span1">911</div>
-                        <div>ПОЕЗДКА С ПСИХОЛОГОМ</div>
+                        <div className="leftIcon1">911</div>
+                        <div className="text1">ПОЕЗДКА С ПСИХОЛОГОМ</div>
                     </button>
                     <button
                         className="second-button"
                         onClick={() => handleButtonClick('psychologist')}
                     >
-                        <div className="sos">SOS</div>
-                        <div>ДЛЯ УЧАСТНИКОВ СВО</div>
+                        <div className="leftIcon2">SOS</div>
+                        <div className="text2">ДЛЯ УЧАСТНИКОВ СВО</div>
                     </button>
                 </div>
             )}
