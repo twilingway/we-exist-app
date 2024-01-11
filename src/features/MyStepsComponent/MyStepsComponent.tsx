@@ -1,21 +1,56 @@
-import React, { useState } from 'react';
-import InputMask from 'react-input-mask';
-import './MyStepsComponent.css'; // Импорт CSS файла
+import Main from '../../pages/Main/Main';
+import Input from '../../shared/ui/Input/Input';
+import { ChangeEvent, FC, useState } from 'react';
+import Button from '../../shared/ui/Button/Button';
+import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
 
-type OrderType = 'social' | 'psychologist' | 'tour';
+import './MyStepsComponent.css';
+import Info from '../../shared/ui/Info/Info';
 
-const MyStepsComponent: React.FC = () => {
+export type OrderType = 'social' | 'psychologist' | 'tour';
+
+export interface IFirstStepData {
+    name: string;
+    description?: string;
+    type?: OrderType;
+}
+
+const firstStepData: IFirstStepData[] = [
+    {
+        name: 'БЕСПЛАТНЫЙ ВЫЗОВ',
+        description: 'ДЛЯ УЧАСТНИКОВ СВО',
+        type: 'social'
+    },
+    {
+        name: 'ВЫЗОВ ПО ЗАПРОСУ',
+        description: 'ДЛЯ ГРАЖДАНСКИХ ЛИЦ',
+        type: 'psychologist'
+    },
+    {
+        name: 'ОБУЧЕНИЕ ★',
+        description: 'ДЛЯ ПСИХОЛОГОВ',
+        type: 'tour'
+    },
+];
+
+const MyStepsComponent: FC = () => {
     const [step, setStep] = useState(1);
     const [orderType, setOrderType] = useState<OrderType>('social');
     const [address, setAddress] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
 
-    const isPhoneValid = () => phone.match(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/);
+    const isPhoneValid = () =>
+        !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/).exec(phone) ? 'Введите корректный номер телефона' : '';
 
-    const handleButtonClick = (buttonType: OrderType) => {
-        setOrderType(buttonType);
+    const handleButtonClick = (buttonType?: OrderType) => {
+        setOrderType(buttonType ?? 'social');
         setStep(2);
+    };
+
+    const handleToMainClick = () => {
+        setOrderType('social');
+        setStep(1);
     };
 
     const handleSubmit = async () => {
@@ -26,6 +61,7 @@ const MyStepsComponent: React.FC = () => {
             },
             body: JSON.stringify({ orderType, address, phone, name }),
         });
+
 
         if (response.ok) {
             // если HTTP-статус в диапазоне 200-299
@@ -39,115 +75,71 @@ const MyStepsComponent: React.FC = () => {
         }
     };
 
-    const handleChangeAddress = (
-        event: React.ChangeEvent<HTMLInputElement>,
+    const handleAddressChange = (
+        event: ChangeEvent<HTMLInputElement>,
     ) => {
         setAddress(event.target.value);
     };
 
-    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
 
-    return (
-        <div className="steps-container">
-            {step === 0 && (
-                <>
-                    <div>Во время отправки заявки произошла ошибка</div>
-                    <button className="step-button" onClick={() => setStep(1)}>
-                        Попробовать снова
-                    </button>
-                </>
-            )}
-            {step > 1 && (
-                <button
-                    className="step-button"
-                    onClick={() => setStep((prev) => prev - 1)}
-                >
-                    Назад
-                </button>
-            )}
-            {step === 1 && (
-                <div className="step">
-                    <div className="title">МЫ-ЕСТЬ!</div>
-                    <button
-                        className="first-button"
-                        onClick={() => handleButtonClick('social')}
-                    >
-                        <div className="leftIcon1">911</div>
-                        <div className="text1">ПОЕЗДКА С ПСИХОЛОГОМ</div>
-                    </button>
-                    <button
-                        className="second-button"
-                        onClick={() => handleButtonClick('psychologist')}
-                    >
-                        <div className="leftIcon2">SOS</div>
-                        <div className="text2">ДЛЯ УЧАСТНИКОВ СВО</div>
-                    </button>
-                </div>
-            )}
+    const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPhone(event.target.value);
+    };
 
-            {step === 2 && (
-                <div className="step">
-                    <div className="input-group">
-                        <label>Адрес:</label>
-                        <input
-                            type="text"
-                            placeholder="Введите адрес откуда Вас забрать"
-                            value={address}
-                            onChange={handleChangeAddress}
-                            required
-                        />
-                        <small>
-                            Пример: Москва, ул. Строителей, дом 4, под. 3
-                        </small>
-                    </div>
-                    <div className="input-group">
-                        <label>Телефон:</label>
-                        <InputMask
-                            mask="+7 (999) 999-99-99"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            placeholder="Указать номер телефона для связи"
-                            className={isPhoneValid() ? 'valid' : 'invalid'}
-                        />
-                        {!isPhoneValid() && (
-                            <small>Введите корректный номер телефона</small>
-                        )}
-                    </div>
-                    <div className="input-group">
-                        <label>Имя:</label>
-                        <input
-                            type="text"
-                            placeholder="Введите ваше имя (необязательно)"
-                            value={name}
-                            onChange={handleChangeName}
-                        />
-                    </div>
-                    <button
-                        className="submit-button"
+    return (
+        <Main step={step} orderType={orderType}>
+            {step === 0 && <ErrorStep onClick={handleToMainClick} />}
+            {step === 1 &&
+                firstStepData.map((el) => (
+                    <Button step={step} key={el.type} onClick={handleButtonClick} {...el}/>
+                ))
+            }
+            {step === 2 &&
+                <>
+                    <Input
+                        type="text"
+                        placeholder="ВВЕДИТЕ ВАШ АДРЕС"
+                        description="ПРИМЕР: МОСКВА, УЛ. СТРОИТЕЛЕЙ, ДОМ 5, ПОДЪЕЗД 4"
+                        value={address}
+                        onChange={handleAddressChange}
+                        required
+                    />
+                    <Input
+                        type="text"
+                        placeholder="ВВЕДИТЕ НОМЕР ТЕЛЕФОНА"
+                        description="ПРИМЕР: +7912 617 27 14"
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        mask="+7 (999) 999-99-99"
+                        error={phone && isPhoneValid()}
+                        required
+                    />
+                    <Input
+                        type="text"
+                        placeholder="ВВЕДИТЕ ВАШЕ ИМЯ"
+                        description="*КАК БЫ ВЫ ХОТЕЛИ, ЧТОБЫ К ВАМ ОБРАЩАЛИСЬ"
+                        value={name}
+                        onChange={handleNameChange}
+                        required
+                    />
+                    <Button
+                        name="ОТПРАВИТЬ ЗАЯВКУ"
+                        step={step}
                         onClick={handleSubmit}
-                        disabled={isPhoneValid() ? false : true}
-                    >
-                        Подтвердить
-                    </button>
-                </div>
-            )}
-            {step === 3 && (
-                <div className="step">
-                    <div>
-                        Ваша заявка успешно зарегистрированна. Ожидайте звонок
-                        специалиста.
-                    </div>
-                    <button
-                        className="submit-button"
-                        onClick={() => setStep(1)}
-                    >
-                        Подать еще 1 заявку
-                    </button>
-                </div>
-            )}
-        </div>
+                        disabled={!!isPhoneValid()}
+                    />
+                </>
+            }
+            {step === 3 &&
+                <>
+                    <Info text="ВАША ЗАЯВКА ПРИНЯТА!" description="МЫ СКОРО СВЯЖЕМСЯ С ВАМИ!" />
+                    <Button step={step} onClick={handleToMainClick} name="НОВАЯ ЗАЯВКА" />
+                </>
+            }
+        </Main>
     );
 };
 

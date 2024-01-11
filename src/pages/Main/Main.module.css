@@ -1,0 +1,26 @@
+.container {
+    display: grid;
+    align-content: space-around;
+    justify-items: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 15px;
+    background: linear-gradient(180deg, #150D0B 0%, #80060B 50%, #210E10 100%);
+}
+
+.second {
+    background: linear-gradient(180deg, #73032B 0%, #D04E23 50%, #781112 100%);
+}
+
+.third {
+    background: linear-gradient(180deg, #FB9411 0%, #B03402 50%, #FD830F 100%);
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 12px;
+}
