@@ -1,0 +1,21 @@
+.infoBlock {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #FB9411;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    color: #FFFFFF;
+    padding: 10px;
+}
+
+.description {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    font-weight: 400;
+}
