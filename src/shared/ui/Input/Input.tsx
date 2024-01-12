@@ -17,7 +17,7 @@ interface IInput {
 }
 const Input: FC<IInput> = ({ description, mask, error, ...rest }) => {
     return (
-        <MenuItemContainer>
+        <MenuItemContainer isLarge>
             {mask ? (
                 <>
                     <InputMask

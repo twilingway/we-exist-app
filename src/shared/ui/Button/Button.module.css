@@ -10,6 +10,7 @@
     line-height: 16px;
     letter-spacing: 0;
     margin: 0;
+    border: none;
 }
 
 .name:disabled {
@@ -27,4 +28,31 @@
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0;
+}
+
+@media (min-width: 750px) {
+    .name {
+        border-radius: 12px;
+        padding: 20px;
+        font-size: 32px;
+        line-height: 38px;
+    }
+
+    .description {
+        font-size: 20px;
+        line-height: 24px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .name {
+        padding: 24px;
+        font-size: 40px;
+        line-height: 47px;
+    }
+
+    .description {
+        font-size: 40px;
+        line-height: 47px;
+    }
 }

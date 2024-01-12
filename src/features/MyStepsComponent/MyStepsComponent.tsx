@@ -1,13 +1,14 @@
 import Main from '../../pages/Main/Main';
+import Info from '../../shared/ui/Info/Info';
 import Input from '../../shared/ui/Input/Input';
 import { ChangeEvent, FC, useState } from 'react';
 import Button from '../../shared/ui/Button/Button';
 import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
 
 import './MyStepsComponent.css';
-import Info from '../../shared/ui/Info/Info';
 
-export type OrderType = 'social' | 'psychologist' | 'tour';
+export type OrderType = 'FREE' | 'CALLBACK' | 'EDUCATION';
+
 
 export interface IFirstStepData {
     name: string;
@@ -19,23 +20,23 @@ const firstStepData: IFirstStepData[] = [
     {
         name: 'БЕСПЛАТНЫЙ ВЫЗОВ',
         description: 'ДЛЯ УЧАСТНИКОВ СВО',
-        type: 'social'
+        type: 'FREE'
     },
     {
         name: 'ВЫЗОВ ПО ЗАПРОСУ',
         description: 'ДЛЯ ГРАЖДАНСКИХ ЛИЦ',
-        type: 'psychologist'
+        type: 'CALLBACK'
     },
     {
         name: 'ОБУЧЕНИЕ ★',
         description: 'ДЛЯ ПСИХОЛОГОВ',
-        type: 'tour'
+        type: 'EDUCATION'
     },
 ];
 
 const MyStepsComponent: FC = () => {
     const [step, setStep] = useState(1);
-    const [orderType, setOrderType] = useState<OrderType>('social');
+    const [orderType, setOrderType] = useState<OrderType>('FREE');
     const [address, setAddress] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -44,12 +45,12 @@ const MyStepsComponent: FC = () => {
         !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/).exec(phone) ? 'Введите корректный номер телефона' : '';
 
     const handleButtonClick = (buttonType?: OrderType) => {
-        setOrderType(buttonType ?? 'social');
+        setOrderType(buttonType ?? 'FREE');
         setStep(2);
     };
 
     const handleToMainClick = () => {
-        setOrderType('social');
+        setOrderType('FREE');
         setStep(1);
     };
 
@@ -61,7 +62,6 @@ const MyStepsComponent: FC = () => {
             },
             body: JSON.stringify({ orderType, address, phone, name }),
         });
-
 
         if (response.ok) {
             // если HTTP-статус в диапазоне 200-299
