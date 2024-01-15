@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import cn from 'classnames';
 import MenuItemContainer from '../MenuItemContainer/MenuItemContainer';
 import { IFirstStepData, OrderType } from '../../../features/MyStepsComponent/MyStepsComponent';
@@ -10,7 +10,7 @@ interface IButton extends IFirstStepData{
     onClick?: (type?: OrderType) => void;
     disabled?: boolean;
 }
-const Button: FC<IButton> = (
+const Button: FC<IButton> = memo((
     {
         step,
         type,
@@ -37,6 +37,6 @@ const Button: FC<IButton> = (
             {description && <div className={s.description}>{description}</div>}
         </MenuItemContainer>
     );
-};
+});
 
 export default Button;

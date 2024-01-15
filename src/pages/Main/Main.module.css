@@ -8,6 +8,7 @@
     height: 100vh;
     padding: 36px 10px 24px;
     background: linear-gradient(180deg, #150D0B 0%, #80060B 50%, #210E10 100%);
+    position: relative;
 }
 
 .second {
@@ -28,8 +29,8 @@
 
 .handsLogo {
     background-image: url("../../assets/handsLogo.svg");
-    width: 64px;
-    height: 64px;
+    width: 90px;
+    height: 90px;
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -65,8 +66,8 @@
     }
 
     .handsLogo {
-        width: 187px;
-        height: 187px;
+        width: 210px;
+        height: 210px;
     }
 
     .ribbonLogo {
