@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { FC, memo, ReactNode } from 'react';
+import MenuButton from '../../shared/ui/MenuButton/MenuButton';
+import OrdersList from '../../shared/ui/OrdersList/OrdersList';
 
 import s from './Main.module.css';
-import OrdersList from '../../shared/ui/OrdersList/OrdersList';
-import MenuButton from '../../shared/ui/MenuButton/MenuButton';
 
 interface IMain {
     children?: ReactNode;
