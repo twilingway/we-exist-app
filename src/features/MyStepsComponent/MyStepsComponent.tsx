@@ -2,6 +2,7 @@ import Main from '../../pages/Main/Main';
 import Info from '../../shared/ui/Info/Info';
 import Input from '../../shared/ui/Input/Input';
 import Button from '../../shared/ui/Button/Button';
+import GoBack from '../../shared/ui/GoBack/GoBack';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
@@ -150,6 +151,7 @@ const MyStepsComponent: FC = memo(() => {
             }
             {step === 2 &&
                 <>
+                    <GoBack onClick={handleToMainClick} />
                     <Input
                         type="text"
                         placeholder="ВВЕДИТЕ ВАШ АДРЕС"
