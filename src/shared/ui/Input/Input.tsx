@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import InputMask from 'react-input-mask';
 import MenuItemContainer from '../MenuItemContainer/MenuItemContainer';
 
@@ -15,7 +15,7 @@ interface IInput {
     mask?: string;
     error?: string;
 }
-const Input: FC<IInput> = ({ description, mask, error, ...rest }) => {
+const Input: FC<IInput> = memo(({ description, mask, error, ...rest }) => {
     return (
         <MenuItemContainer isLarge>
             {mask ? (
@@ -37,6 +37,6 @@ const Input: FC<IInput> = ({ description, mask, error, ...rest }) => {
             </div>
         </MenuItemContainer>
     );
-};
+});
 
 export default Input;

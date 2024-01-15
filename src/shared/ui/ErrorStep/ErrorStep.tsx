@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import MenuItemContainer from '../MenuItemContainer/MenuItemContainer';
 
 import s from './ErrorStep.module.css';
@@ -6,7 +6,7 @@ import s from './ErrorStep.module.css';
 interface IErrorStep {
     onClick?: () => void;
 }
-const ErrorStep: FC<IErrorStep> = ({ onClick }) => {
+const ErrorStep: FC<IErrorStep> = memo(({ onClick }) => {
     return (
         <MenuItemContainer>
             <div className={s.errorBlock}>ОШИБКА</div>
@@ -15,6 +15,6 @@ const ErrorStep: FC<IErrorStep> = ({ onClick }) => {
             </button>
         </MenuItemContainer>
     );
-};
+});
 
 export default ErrorStep;

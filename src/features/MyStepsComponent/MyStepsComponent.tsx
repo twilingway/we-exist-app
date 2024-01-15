@@ -1,9 +1,10 @@
 import Main from '../../pages/Main/Main';
 import Info from '../../shared/ui/Info/Info';
 import Input from '../../shared/ui/Input/Input';
-import { ChangeEvent, FC, useState } from 'react';
 import Button from '../../shared/ui/Button/Button';
+import { useIndexedDB } from 'react-indexed-db-hook';
 import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './MyStepsComponent.css';
 
@@ -14,6 +15,13 @@ export interface IFirstStepData {
     name: string;
     description?: string;
     type?: OrderType;
+}
+
+interface ICreateOrderPayload {
+    address: string;
+    phone: string;
+    name: string;
+    orderType: OrderType;
 }
 
 const firstStepData: IFirstStepData[] = [
@@ -34,63 +42,106 @@ const firstStepData: IFirstStepData[] = [
     },
 ];
 
-const MyStepsComponent: FC = () => {
+interface IDbData {
+    phone: string;
+}
+
+export const backendUrl = 'https://i-exist.twiling.ru/api';
+
+const MyStepsComponent: FC = memo(() => {
+    const { getByID, add, update } = useIndexedDB('user');
+
     const [step, setStep] = useState(1);
     const [orderType, setOrderType] = useState<OrderType>('FREE');
     const [address, setAddress] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
+    const [isOpenMenu, setIsOpenMenu] = useState(false);
+    const [dbPhone, setDbPhone] = useState('');
 
-    const isPhoneValid = () =>
-        !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/).exec(phone) ? 'Введите корректный номер телефона' : '';
+    useEffect(() => {
+        getByID<IDbData>(1).then((user) => {
+            if (user) {
+                setDbPhone(user.phone);
+            }
+        }, (e) => console.log(e))
+    }, [getByID]);
 
-    const handleButtonClick = (buttonType?: OrderType) => {
+    const isPhoneValid = useMemo(() =>
+        !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/)
+            .exec(phone) ? 'Введите корректный номер телефона' : '', [phone]);
+
+    const handleButtonClick = useCallback((buttonType?: OrderType) => {
         setOrderType(buttonType ?? 'FREE');
         setStep(2);
-    };
+    }, []);
 
-    const handleToMainClick = () => {
+    const handleToMainClick = useCallback(() => {
         setOrderType('FREE');
         setStep(1);
-    };
+    }, []);
 
-    const handleSubmit = async () => {
-        const response = await fetch('localhost', {
+    const handleSubmit = useCallback(async () => {
+        const payload: ICreateOrderPayload = {
+            phone: phone.replace(/\D/g, ''),
+            orderType,
+            address,
+            name
+        }
+
+        const response = await fetch(`${backendUrl}/order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
-            body: JSON.stringify({ orderType, address, phone, name }),
+            body: JSON.stringify(payload),
         });
 
         if (response.ok) {
-            // если HTTP-статус в диапазоне 200-299
-            // получаем тело ответа (см. про этот метод ниже)
             const json = await response.json();
-            console.log('response json :>> ', json);
+            if (!dbPhone) {
+                await add({ phone: json.phone });
+                setDbPhone(json.phone);
+            } else if (dbPhone !== json.phone) {
+                await update({ id: 1, phone: json.phone });
+                setDbPhone(json.phone);
+            }
             setStep(3);
         } else {
             alert('Ошибка HTTP: ' + response.status);
             setStep(0);
         }
-    };
+        setPhone('');
+        setName('');
+        setAddress('');
+    }, [add, address, dbPhone, name, orderType, phone, update]);
 
-    const handleAddressChange = (
+    const handleAddressChange = useCallback((
         event: ChangeEvent<HTMLInputElement>,
     ) => {
         setAddress(event.target.value);
-    };
+    }, []);
 
-    const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
-    };
+    }, []);
 
-    const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handlePhoneChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setPhone(event.target.value);
-    };
+    }, []);
+
+    const handleMenuClick = useCallback((value: boolean) => {
+        setIsOpenMenu(value);
+    }, []);
 
     return (
-        <Main step={step} orderType={orderType}>
+        <Main
+            step={step}
+            orderType={orderType}
+            isOpenMenu={isOpenMenu}
+            onOpenMenu={handleMenuClick}
+            phone={dbPhone}
+        >
             {step === 0 && <ErrorStep onClick={handleToMainClick} />}
             {step === 1 &&
                 firstStepData.map((el) => (
@@ -114,7 +165,7 @@ const MyStepsComponent: FC = () => {
                         value={phone}
                         onChange={handlePhoneChange}
                         mask="+7 (999) 999-99-99"
-                        error={phone && isPhoneValid()}
+                        error={phone && isPhoneValid}
                         required
                     />
                     <Input
@@ -129,7 +180,7 @@ const MyStepsComponent: FC = () => {
                         name="ОТПРАВИТЬ ЗАЯВКУ"
                         step={step}
                         onClick={handleSubmit}
-                        disabled={!!isPhoneValid()}
+                        disabled={!!isPhoneValid || !name || !address}
                     />
                 </>
             }
@@ -141,6 +192,6 @@ const MyStepsComponent: FC = () => {
             }
         </Main>
     );
-};
+});
 
 export default MyStepsComponent;
