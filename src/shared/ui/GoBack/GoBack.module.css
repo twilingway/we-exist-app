@@ -1,6 +1,6 @@
 .container {
     position: absolute;
-    top: 20px;
+    top: 26px;
     left: 10px;
 }
 
@@ -10,7 +10,7 @@
 
 @media (min-width: 750px) {
     .container {
-        top: 40px;
+        top: 52px;
         left: 25px;
     }
 

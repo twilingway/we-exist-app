@@ -5,7 +5,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     padding: 36px 10px 24px;
     background: linear-gradient(180deg, #150D0B 0%, #80060B 50%, #210E10 100%);
     position: relative;
