@@ -42,11 +42,13 @@ const OrdersList: FC<IOrdersList> = ({ phone }) => {
 
     return (
         <div className={s.container}>
-            <div className={s.title}>МОИ ЗАЯВКИ</div>
-            <div className={s.content}>
-                {!orders.length && 'Заявки отсутствуют'}
-                {orders.map((el) => <OrderItem key={el.id} order={el} />)}
-            </div>
+            {/*<div className={s.title}>МОИ ЗАЯВКИ</div>*/}
+            {/*<div className={s.content}>*/}
+            {/*    {!orders.length && 'Заявки отсутствуют'}*/}
+            {/*    {orders.map((el) => <OrderItem key={el.id} order={el} />)}*/}
+            {/*</div>*/}
+            <div className={s.title}>ТЕЛЕФОН ДЛЯ СВЯЗИ:</div>
+            <a href="tel:+79995941007">+7-999-59-41-007</ a>
         </div>
     );
 };
