@@ -12,10 +12,17 @@
     row-gap: 36px;
 }
 
-.container a {
+.phone {
     text-decoration: none;
     color: inherit;
     font-size: 24px;
+}
+
+.consent {
+    text-decoration: none;
+    color: inherit;
+    font-size: 10px;
+    text-align: center
 }
 
 .title {
@@ -60,7 +67,7 @@
         line-height: 47px;
     }
 
-    .container a {
+    .phone {
         text-decoration: none;
         color: inherit;
         font-size: 48px;

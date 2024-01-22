@@ -1,6 +1,6 @@
-import OrderItem from '../OrderItem/OrderItem';
-import { FC, useEffect, useState } from 'react';
-import { backendUrl, OrderType } from '../../../features/MyStepsComponent/MyStepsComponent';
+// import OrderItem from '../OrderItem/OrderItem';
+import { FC } from 'react';
+import { OrderType } from '../../../features/MyStepsComponent/MyStepsComponent';
 
 import s from './OrdersList.module.css';
 
@@ -21,24 +21,24 @@ export interface IOrder {
 interface IOrdersList {
     phone: string;
 }
-const OrdersList: FC<IOrdersList> = ({ phone }) => {
-    const [orders, setOrders] = useState<IOrder[]>([])
+const OrdersList: FC<IOrdersList> = () => {
+    // const [orders, setOrders] = useState<IOrder[]>([])
 
-    useEffect(() => {
-        if (phone) {
-            fetch(`${backendUrl}/order/${phone}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                },
-            }).then(async (response) => {
-                if (response.ok) {
-                    const json = await response.json();
-                    setOrders(json)
-                }
-            });
-        }
-    }, [phone]);
+    // useEffect(() => {
+    //     if (phone) {
+    //         fetch(`${backendUrl}/order/${phone}`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json;charset=utf-8',
+    //             },
+    //         }).then(async (response) => {
+    //             if (response.ok) {
+    //                 const json = await response.json();
+    //                 setOrders(json)
+    //             }
+    //         });
+    //     }
+    // }, [phone]);
 
     return (
         <div className={s.container}>
@@ -48,7 +48,8 @@ const OrdersList: FC<IOrdersList> = ({ phone }) => {
             {/*    {orders.map((el) => <OrderItem key={el.id} order={el} />)}*/}
             {/*</div>*/}
             <div className={s.title}>ТЕЛЕФОН ДЛЯ СВЯЗИ:</div>
-            <a href="tel:+79995941007">+7-999-59-41-007</ a>
+            <a href="tel:+79995941007" className={s.phone}>+7-999-59-41-007</ a>
+            <a className={s.consent} href="/files/СОГЛАШЕНИЕ_ОБ_ОБРАБОТКЕ_ПЕРСОНАЛЬНЫХ_ДАННЫХ.pdf" download>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</a>
         </div>
     );
 };
