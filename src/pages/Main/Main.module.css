@@ -11,6 +11,12 @@
     position: relative;
 }
 
+@supports (-webkit-touch-callout: none) {
+    .container {
+        height: 100vh;
+    }
+}
+
 .second {
     background: linear-gradient(180deg, #73032B 0%, #D04E23 50%, #781112 100%);
 }
