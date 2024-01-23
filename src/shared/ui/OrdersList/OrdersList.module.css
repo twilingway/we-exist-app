@@ -19,10 +19,19 @@
 }
 
 .consent {
+    cursor: pointer;
     text-decoration: none;
     color: inherit;
     font-size: 10px;
-    text-align: center
+    text-align: center;
+    opacity: 0.8;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.8);
+    transition: 0.2s;
+}
+
+.consent:hover {
+    opacity: 1;
+    border-bottom: 1px dashed rgba(0, 0, 0, 1);
 }
 
 .title {
