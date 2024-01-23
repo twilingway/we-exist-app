@@ -49,7 +49,14 @@ const OrdersList: FC<IOrdersList> = () => {
             {/*</div>*/}
             <div className={s.title}>ТЕЛЕФОН ДЛЯ СВЯЗИ:</div>
             <a href="tel:+79995941007" className={s.phone}>+7-999-59-41-007</ a>
-            <a className={s.consent} href="/files/СОГЛАШЕНИЕ_ОБ_ОБРАБОТКЕ_ПЕРСОНАЛЬНЫХ_ДАННЫХ.pdf" download>СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ</a>
+            <a
+                className={s.consent}
+                href="https://disk.yandex.ru/d/NGU8_mh2lmttvg"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ
+            </a>
         </div>
     );
 };

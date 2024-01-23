@@ -2,6 +2,7 @@
     position: absolute;
     top: 26px;
     left: 10px;
+    cursor: pointer;
 }
 
 .container img {
