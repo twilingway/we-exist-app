@@ -90,7 +90,7 @@ const MyStepsComponent: FC = memo(() => {
             name
         }
 
-        const response = await fetch(`${backendUrl}/order`, {
+        const response = await fetch(`${backendUrl}/orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
