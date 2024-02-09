@@ -29,42 +29,42 @@ export default defineConfig({
             },
             // workbox: {
             //     globDirectory: 'dist/',
-            //     globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,woff2}'],
+            //     globPatterns: ['**/*/{js,css,html,ico,png,svg,jpg,jpeg,woff2}'],
             //     swDest: 'dist/sw.js',
             // },
             manifest: {
-                name: 'Мы - Есть',
-                short_name: 'Мы - Есть',
+                name: 'Я ★ Есть',
+                short_name: 'Я ★ Есть',
                 description: 'Приложение социальной психологической помощи',
                 theme_color: '#ffffff',
                 icons: [
                     {
-                        src: 'assets/images/android-icon-36x36.png',
+                        src: '/assets/images/android-icon-36x36.png',
                         sizes: '36x36',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/images/android-icon-48x48.png',
+                        src: '/assets/images/android-icon-48x48.png',
                         sizes: '48x48',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/images/android-icon-72x72.png',
+                        src: '/assets/images/android-icon-72x72.png',
                         sizes: '72x72',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/images/android-icon-96x96.png',
+                        src: '/assets/images/android-icon-96x96.png',
                         sizes: '96x96',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/images/android-icon-144x144.png',
+                        src: '/assets/images/android-icon-144x144.png',
                         sizes: '144x144',
                         type: 'image/png',
                     },
                     {
-                        src: 'assets/images/android-icon-192x192.png',
+                        src: '/assets/images/android-icon-192x192.png',
                         sizes: '192x192',
                         type: 'image/png',
                     },
