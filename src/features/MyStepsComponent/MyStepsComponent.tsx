@@ -1,11 +1,12 @@
 import Main from '../../pages/Main/Main';
 import Info from '../../shared/ui/Info/Info';
+import Loader from '../../assets/Loader.svg';
 import Input from '../../shared/ui/Input/Input';
 import Button from '../../shared/ui/Button/Button';
 import GoBack from '../../shared/ui/GoBack/GoBack';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
-import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import './MyStepsComponent.css';
 
@@ -13,7 +14,7 @@ export type OrderType = 'FREE' | 'CALLBACK' | 'EDUCATION';
 
 
 export interface IFirstStepData {
-    name: string;
+    name: string | ReactNode;
     description?: string;
     type?: OrderType;
 }
@@ -58,6 +59,7 @@ const MyStepsComponent: FC = memo(() => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [isOpenMenu, setIsOpenMenu] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [dbPhone, setDbPhone] = useState('');
 
     useEffect(() => {
@@ -89,7 +91,7 @@ const MyStepsComponent: FC = memo(() => {
             address,
             name
         }
-
+        setIsLoading(true);
         const response = await fetch(`${backendUrl}/orders`, {
             method: 'POST',
             headers: {
@@ -112,6 +114,7 @@ const MyStepsComponent: FC = memo(() => {
             alert('Ошибка HTTP: ' + response.status);
             setStep(0);
         }
+        setIsLoading(false);
         setPhone('');
         setName('');
         setAddress('');
@@ -179,7 +182,7 @@ const MyStepsComponent: FC = memo(() => {
                         required
                     />
                     <Button
-                        name="ОТПРАВИТЬ ЗАЯВКУ"
+                        name={isLoading ? <img src={Loader} alt="" style={{ width: '36px' }} /> : 'ОТПРАВИТЬ ЗАЯВКУ'}
                         step={step}
                         onClick={handleSubmit}
                         disabled={!!isPhoneValid || !name || !address}
