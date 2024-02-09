@@ -2,6 +2,7 @@
     "name": "Я ★ Есть",
     "short_name": "Я ★ Есть",
     "description": "Приложение социальной психологической помощи",
+    "start_url": "/",
     "screenshots": [
         {
           "src": "/assets/images/android-chrome-512x512.png",
@@ -40,6 +41,7 @@
             "sizes": "96x96",
             "type": "image/png",
             "density": "2.0",
+            "purpose": "any"
         },
         {
             "src": "/assets/images/android_icon-144x144.png",
