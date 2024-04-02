@@ -1,11 +1,11 @@
 .input {
     width: 100%;
     border-radius: 4px;
-    background-color: #80060B;
+    background-color: #80060b;
     text-align: center;
     padding: 10px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 16px;
     letter-spacing: 0;
     margin: 0;
@@ -14,7 +14,7 @@
 }
 
 .error {
-    border-color: #80060B;
+    border-color: #80060b;
 }
 
 .input::placeholder {
@@ -29,10 +29,9 @@
     line-height: 12px;
 }
 
-
 .errorText {
     position: absolute;
-    color: #80060B;
+    color: #80060b;
     top: -16px;
     left: 0;
     width: 100%;
