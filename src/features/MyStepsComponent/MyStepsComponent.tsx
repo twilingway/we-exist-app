@@ -6,12 +6,20 @@ import Button from '../../shared/ui/Button/Button';
 import GoBack from '../../shared/ui/GoBack/GoBack';
 import { useIndexedDB } from 'react-indexed-db-hook';
 import ErrorStep from '../../shared/ui/ErrorStep/ErrorStep';
-import { ChangeEvent, FC, memo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+    ChangeEvent,
+    FC,
+    memo,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 
 import './MyStepsComponent.css';
 
 export type OrderType = 'FREE' | 'CALLBACK' | 'EDUCATION';
-
 
 export interface IFirstStepData {
     name: string | ReactNode;
@@ -30,17 +38,17 @@ const firstStepData: IFirstStepData[] = [
     {
         name: 'БЕСПЛАТНЫЙ ВЫЗОВ',
         description: 'ДЛЯ УЧАСТНИКОВ СВО',
-        type: 'FREE'
+        type: 'FREE',
     },
     {
         name: 'ВЫЗОВ ПО ЗАПРОСУ',
         description: 'ДЛЯ ГРАЖДАНСКИХ ЛИЦ',
-        type: 'CALLBACK'
+        type: 'CALLBACK',
     },
     {
         name: 'ОБУЧЕНИЕ ★',
         description: 'ДЛЯ ПСИХОЛОГОВ',
-        type: 'EDUCATION'
+        type: 'EDUCATION',
     },
 ];
 
@@ -63,16 +71,23 @@ const MyStepsComponent: FC = memo(() => {
     const [dbPhone, setDbPhone] = useState('');
 
     useEffect(() => {
-        getByID<IDbData>(1).then((user) => {
-            if (user) {
-                setDbPhone(user.phone);
-            }
-        }, (e) => console.log(e))
+        getByID<IDbData>(1).then(
+            (user) => {
+                if (user) {
+                    setDbPhone(user.phone);
+                }
+            },
+            (e) => console.log(e),
+        );
     }, [getByID]);
 
-    const isPhoneValid = useMemo(() =>
-        !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/)
-            .exec(phone) ? 'Введите корректный номер телефона' : '', [phone]);
+    const isPhoneValid = useMemo(
+        () =>
+            !RegExp(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/).exec(phone)
+                ? 'Введите корректный номер телефона'
+                : '',
+        [phone],
+    );
 
     const handleButtonClick = useCallback((buttonType?: OrderType) => {
         setOrderType(buttonType ?? 'FREE');
@@ -89,8 +104,8 @@ const MyStepsComponent: FC = memo(() => {
             phone: phone.replace(/\D/g, ''),
             orderType,
             address,
-            name
-        }
+            name,
+        };
         setIsLoading(true);
         const response = await fetch(`${backendUrl}/orders`, {
             method: 'POST',
@@ -120,19 +135,26 @@ const MyStepsComponent: FC = memo(() => {
         setAddress('');
     }, [add, address, dbPhone, name, orderType, phone, update]);
 
-    const handleAddressChange = useCallback((
-        event: ChangeEvent<HTMLInputElement>,
-    ) => {
-        setAddress(event.target.value);
-    }, []);
+    const handleAddressChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setAddress(event.target.value);
+        },
+        [],
+    );
 
-    const handleNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    }, []);
+    const handleNameChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setName(event.target.value);
+        },
+        [],
+    );
 
-    const handlePhoneChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        setPhone(event.target.value);
-    }, []);
+    const handlePhoneChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setPhone(event.target.value);
+        },
+        [],
+    );
 
     const handleMenuClick = useCallback((value: boolean) => {
         setIsOpenMenu(value);
@@ -149,10 +171,14 @@ const MyStepsComponent: FC = memo(() => {
             {step === 0 && <ErrorStep onClick={handleToMainClick} />}
             {step === 1 &&
                 firstStepData.map((el) => (
-                    <Button step={step} key={el.type} onClick={handleButtonClick} {...el}/>
-                ))
-            }
-            {step === 2 &&
+                    <Button
+                        step={step}
+                        key={el.type}
+                        onClick={handleButtonClick}
+                        {...el}
+                    />
+                ))}
+            {step === 2 && (
                 <>
                     <GoBack onClick={handleToMainClick} />
                     <Input
@@ -182,19 +208,36 @@ const MyStepsComponent: FC = memo(() => {
                         required
                     />
                     <Button
-                        name={isLoading ? <img src={Loader} alt="" style={{ width: '36px' }} /> : 'ОТПРАВИТЬ ЗАЯВКУ'}
+                        name={
+                            isLoading ? (
+                                <img
+                                    src={Loader}
+                                    alt=""
+                                    style={{ width: '36px' }}
+                                />
+                            ) : (
+                                'ОТПРАВИТЬ ЗАЯВКУ'
+                            )
+                        }
                         step={step}
                         onClick={handleSubmit}
                         disabled={!!isPhoneValid || !name || !address}
                     />
                 </>
-            }
-            {step === 3 &&
+            )}
+            {step === 3 && (
                 <>
-                    <Info text="ВАША ЗАЯВКА ПРИНЯТА!" description="МЫ СКОРО СВЯЖЕМСЯ С ВАМИ!" />
-                    <Button step={step} onClick={handleToMainClick} name="НОВАЯ ЗАЯВКА" />
+                    <Info
+                        text="ВАША ЗАЯВКА ПРИНЯТА!"
+                        description="МЫ СКОРО СВЯЖЕМСЯ С ВАМИ!"
+                    />
+                    <Button
+                        step={step}
+                        onClick={handleToMainClick}
+                        name="НОВАЯ ЗАЯВКА"
+                    />
                 </>
-            }
+            )}
         </Main>
     );
 });
